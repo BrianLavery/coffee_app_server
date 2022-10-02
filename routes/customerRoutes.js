@@ -3,13 +3,16 @@ const mongoose = require('mongoose');
 const User = mongoose.model('users');
 
 module.exports = (app) => {
-	app.post('/api/user', (req, res) => {
-		console.log('req.body', req.body);
-		res.send({ response: 'reached right endpoint' });
-	});
+	app.post('/api/user', async (req, res) => {
+		const { name, email } = req.body;
 
-	app.get('/api/get', (req, res) => {
-		console.log('req.body', req.body);
-		res.send({ response: 'this is a GET' });
+		const existingUser = await User.findOne({ email });
+
+		if (existingUser) {
+			res.send({ result: `We got an existing user ${existingUser}` });
+		} else {
+			const user = await new User({ name, email }).save();
+			res.send({ result: `A new user was created ${user}` });
+		}
 	});
 };
