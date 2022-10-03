@@ -9,10 +9,10 @@ module.exports = (app) => {
 		const existingUser = await User.findOne({ email });
 
 		if (existingUser) {
-			res.send({ result: `We got an existing user ${existingUser}` });
+			res.send({ result: `We have already received an application from you prior` });
 		} else {
 			const user = await new User({ name, email }).save();
-			res.send({ result: `A new user was created ${user}` });
+			res.send({ result: `We have received your application and will be in touch shortly` });
 		}
 	});
 };
