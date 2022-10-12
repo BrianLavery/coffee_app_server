@@ -24,6 +24,18 @@ const userSchema = new Schema(
 				}
 			},
 		},
+		ipAddress: {
+			type: String,
+			trim: true,
+		},
+		ipCity: {
+			type: String,
+			trim: true,
+		},
+		ipCountry: {
+			type: String,
+			trim: true,
+		},
 	},
 	{
 		timestamps: true, // By default is set to false
