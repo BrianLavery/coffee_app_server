@@ -15,14 +15,18 @@ const userSchema = new Schema(
 			trim: true,
 			lowercase: true,
 		},
-		age: {
-			type: Number,
-			default: 0,
-			validate(value) {
-				if (value < 0) {
-					throw new Error('Age must be a positive number');
-				}
-			},
+		coffee: {
+			type: String,
+			required: false,
+			trim: true,
+			lowercase: true,
+		},
+		feedback: {
+			type: String,
+			required: false,
+			maxLength: 150,
+			trim: true,
+			lowercase: true,
 		},
 		ipAddress: {
 			type: String,
