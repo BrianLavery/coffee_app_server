@@ -1,12 +1,13 @@
 const express = require('express');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+import sslRedirect from 'heroku-ssl-redirect'; // https://medium.com/@seunghunsunmoonlee/how-to-enforce-https-redirect-http-to-https-on-heroku-deployed-apps-a87a653ba61e
+
 const keys = require('./config/keys');
 require('./models/User'); // must be executed before routes
 require('./models/Click'); // must be executed before routes
 const customerRoutes = require('./routes/customerRoutes');
 const clickRoutes = require('./routes/clickRoutes');
-const sslRedirect = require('heroku-ssl-redirect'); // https://medium.com/@seunghunsunmoonlee/how-to-enforce-https-redirect-http-to-https-on-heroku-deployed-apps-a87a653ba61e
 const res = require('express/lib/response');
 
 mongoose.connect(keys.mongoURI);
