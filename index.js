@@ -1,50 +1,36 @@
+// External libraries
 const express = require('express');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-// import sslRedirect from 'heroku-ssl-redirect'; // https://medium.com/@seunghunsunmoonlee/how-to-enforce-https-redirect-http-to-https-on-heroku-deployed-apps-a87a653ba61e
 
+// Internal imports
 const keys = require('./config/keys');
 require('./models/User'); // must be executed before routes
 require('./models/Click'); // must be executed before routes
 const customerRoutes = require('./routes/customerRoutes');
 const clickRoutes = require('./routes/clickRoutes');
-// const res = require('express/lib/response');
 
 mongoose.connect(keys.mongoURI);
 
 const app = express();
 
-const environment = process.env.NODE_ENV;
-
-// Force https / SSL
-// app.use(sslRedirect()); // https://medium.com/@seunghunsunmoonlee/how-to-enforce-https-redirect-http-to-https-on-heroku-deployed-apps-a87a653ba61e
-
 // create application/json parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Routes
 customerRoutes(app);
 clickRoutes(app);
 
-// const forceSsl = (req, res, next) => {
-// 	if (req.headers['x-forwarded-proto'] !== 'https') {
-// 		return res.redirect(['https://', req.get('Host'), req.url].join(''));
-// 	}
-// 	return next();
-// };
-
-// app.configure(() => {
-// 	if (environment === 'production') {
-// 		app.use(forceSsl);
-// 	}
-// });
+// Force https / SSL: https://stackoverflow.com/questions/58354546/force-ssl-with-nodejs-and-reactjs , https://stackoverflow.com/questions/7185074/heroku-nodejs-http-to-https-ssl-forced-redirect?answertab=modifieddesc#tab-top
+const environment = process.env.NODE_ENV;
 
 app.use((req, res, next) => {
-	if (req.header('x-forwarded-proto') !== 'https') {
-		res.redirect(`https://${req.header('host')}${req.url}`);
-	} else {
-		next();
+	if (req.header('x-forwarded-proto') !== 'https' && environment !== 'development') {
+		return res.redirect(`https://${req.header('host')}${req.url}`);
 	}
+
+	next();
 });
 
 // Code below only runs on production
