@@ -1,16 +1,21 @@
 {
-  "short_name": "Coffee App",
-  "name": "Thai Coffee Beans App",
+  "short_name": "Coffee Atlas",
+  "name": "Coffee Atlas: Thai coffee beans direct from the farmer",
   "icons": [
     {
-      "src": "logos/favicon.png",
-      "type": "image/png",
+      "src": "favicon.icon",
+      "type": "image/x-icon",
       "sizes": "64x64 32x32 24x24 16x16"
     },
     {
-      "src": "logos/logo.png",
+      "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192  512X512 16x16"
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",
