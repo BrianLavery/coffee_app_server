@@ -26,16 +26,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 customerRoutes(app);
 clickRoutes(app);
 
-const forceSsl = (req, res, next) => {
-	if (req.headers['x-forwarded-proto'] !== 'https') {
-		return res.redirect(['https://', req.get('Host'), req.url].join(''));
-	}
-	return next();
-};
+// const forceSsl = (req, res, next) => {
+// 	if (req.headers['x-forwarded-proto'] !== 'https') {
+// 		return res.redirect(['https://', req.get('Host'), req.url].join(''));
+// 	}
+// 	return next();
+// };
 
-app.configure(() => {
-	if (environment === 'production') {
-		app.use(forceSsl);
+// app.configure(() => {
+// 	if (environment === 'production') {
+// 		app.use(forceSsl);
+// 	}
+// });
+
+app.use((req, res, next) => {
+	if (req.header('x-forwarded-proto') !== 'https') {
+		res.redirect(`https://${req.header('host')}${req.url}`);
+	} else {
+		next();
 	}
 });
 
