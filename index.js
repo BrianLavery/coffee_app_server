@@ -6,11 +6,15 @@ require('./models/User'); // must be executed before routes
 require('./models/Click'); // must be executed before routes
 const customerRoutes = require('./routes/customerRoutes');
 const clickRoutes = require('./routes/clickRoutes');
+const sslRedirect = require('heroku-ssl-redirect'); // https://medium.com/@seunghunsunmoonlee/how-to-enforce-https-redirect-http-to-https-on-heroku-deployed-apps-a87a653ba61e
 const res = require('express/lib/response');
 
 mongoose.connect(keys.mongoURI);
 
 const app = express();
+
+// Force https / SSL
+app.use(sslRedirect()); // https://medium.com/@seunghunsunmoonlee/how-to-enforce-https-redirect-http-to-https-on-heroku-deployed-apps-a87a653ba61e
 
 // create application/json parser
 app.use(bodyParser.json());
